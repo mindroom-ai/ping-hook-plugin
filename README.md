@@ -13,7 +13,7 @@ It registers a single `message:received` hook that responds to `!ping-hook` with
 
 ## Setup
 
-1. Copy to `~/.mindroom-chat/plugins/ping-hook`
+1. Copy to `~/.mindroom/plugins/ping-hook`
 2. Add to `config.yaml`:
    ```yaml
    plugins:
