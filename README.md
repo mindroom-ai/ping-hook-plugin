@@ -1,15 +1,23 @@
 # Ping Hook
 
-Place this plugin at a path MindRoom can resolve from `config.yaml`.
-If you use `/home/basnijholt/.mindroom-chat/config.yaml`, the simplest option is to copy or symlink this directory into `/home/basnijholt/.mindroom-chat/plugins/ping-hook`.
+**The simplest possible MindRoom hook plugin.** Use this as a starting point when building your own hooks.
 
-Add this plugin entry to `config.yaml`.
+It registers a single `message:received` hook that responds to `!ping-hook` with `🏓 Pong from hook!` — that's it. The entire plugin is one manifest file and ~20 lines of Python.
 
-```yaml
-plugins:
-  - path: plugins/ping-hook
-```
+## What it demonstrates
 
-Restart MindRoom after saving the config.
-Send `!ping-hook` in a room the router can see.
-The hook replies with `🏓 Pong from hook!` via `ctx.send_message()` and suppresses the normal unknown-command response.
+- Declaring a plugin via `mindroom.plugin.json`
+- Registering a hook with `@hook(event="message:received", ...)`
+- Using `ctx.send_message()` to reply in the same room/thread
+- Setting `ctx.suppress = True` to prevent the normal response pipeline
+
+## Setup
+
+1. Copy to `~/.mindroom-chat/plugins/ping-hook`
+2. Add to `config.yaml`:
+   ```yaml
+   plugins:
+     - path: plugins/ping-hook
+   ```
+3. Restart MindRoom
+4. Send `!ping-hook` in any room → `🏓 Pong from hook!`
