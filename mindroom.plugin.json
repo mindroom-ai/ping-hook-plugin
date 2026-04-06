@@ -1,0 +1,5 @@
+{
+  "name": "ping-hook",
+  "hooks_module": "hooks.py",
+  "skills": []
+}
