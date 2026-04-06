@@ -1,15 +1,20 @@
 # Ping Hook
 
-**The simplest possible MindRoom hook plugin.** Use this as a starting point when building your own hooks.
+The simplest possible MindRoom hook plugin — use as a starting point for building your own.
 
-It registers a single `message:received` hook that responds to `!ping-hook` with `🏓 Pong from hook!` — that's it. The entire plugin is one manifest file and ~20 lines of Python.
+Registers a single `message:received` hook that responds to `!ping-hook` with `🏓 Pong from hook!`. The entire plugin is one manifest file and ~20 lines of Python.
 
-## What it demonstrates
+## How it works
 
-- Declaring a plugin via `mindroom.plugin.json`
-- Registering a hook with `@hook(event="message:received", ...)`
-- Using `ctx.send_message()` to reply in the same room/thread
-- Setting `ctx.suppress = True` to prevent the normal response pipeline
+1. User sends `!ping-hook` in any room
+2. Hook fires, sends `🏓 Pong from hook!` via `ctx.send_message()`
+3. Sets `ctx.suppress = True` to prevent the normal response pipeline from running
+
+## Hooks
+
+| Hook | Event | Purpose |
+|------|-------|---------|
+| `ping-hook` | `message:received` | Respond to `!ping-hook` command |
 
 ## Setup
 
@@ -20,4 +25,3 @@ It registers a single `message:received` hook that responds to `!ping-hook` with
      - path: plugins/ping-hook
    ```
 3. Restart MindRoom
-4. Send `!ping-hook` in any room → `🏓 Pong from hook!`
