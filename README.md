@@ -6,9 +6,7 @@
 
 <img src="https://media.githubusercontent.com/media/mindroom-ai/mindroom/refs/heads/main/frontend/public/logo.png" alt="MindRoom Logo" align="right" width="120" />
 
-The simplest possible [MindRoom](https://github.com/mindroom-ai/mindroom) hook plugin. Use it as a starting point for building your own hook-only plugin.
-
-It registers a single `message:received` hook that responds to `!ping-hook` with `🏓 Pong from hook!`. The implementation is intentionally tiny, but it still demonstrates the key pieces most hook plugins need: event filtering, sending a message, and suppressing the normal response pipeline.
+A minimal [MindRoom](https://github.com/mindroom-ai/mindroom) hook plugin that responds to `!ping-hook` with `🏓 Pong from hook!`.
 
 ## Features
 
@@ -16,7 +14,6 @@ It registers a single `message:received` hook that responds to `!ping-hook` with
 - Responds to the exact command `!ping-hook`
 - Sends the reply into the current room and thread with `ctx.send_message()`
 - Sets `ctx.suppress = True` so MindRoom does not continue with the normal response flow
-- Minimal example repo for plugin manifests, hook registration, and message handling
 
 ## How It Works
 
