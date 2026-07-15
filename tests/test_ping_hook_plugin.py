@@ -12,7 +12,9 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 from mindroom.constants import ROUTER_AGENT_NAME
+from mindroom.hooks import MessageEnvelope, SenderKind, TurnIntent, TurnOrigin, TurnTrust
 from mindroom.hooks.decorators import get_hook_metadata
+from mindroom.message_target import MessageTarget
 
 
 def _load_hooks_module() -> ModuleType:
@@ -31,11 +33,31 @@ hooks = _load_hooks_module()
 
 
 def _context(body: str, *, event_id: str | None = "$pong") -> SimpleNamespace:
+    target = MessageTarget.resolve(
+        room_id="!room:localhost",
+        thread_id="$thread-root",
+        reply_to_event_id=None,
+    )
+    origin = TurnOrigin(
+        transport_sender_id="@user:localhost",
+        requester_id="@user:localhost",
+        sender_entity_name=None,
+        requester_entity_name=None,
+        sender_kind=SenderKind.USER,
+        requester_kind=SenderKind.USER,
+        intent=TurnIntent.USER_MESSAGE,
+        source_kind="message",
+        trust=TurnTrust.EXTERNAL,
+    )
     return SimpleNamespace(
-        envelope=SimpleNamespace(
+        envelope=MessageEnvelope(
+            source_event_id="$ping",
+            target=target,
             body=body,
-            room_id="!room:localhost",
-            resolved_thread_id="$thread-root",
+            attachment_ids=(),
+            mentioned_agents=(),
+            agent_name=ROUTER_AGENT_NAME,
+            origin=origin,
         ),
         send_message=AsyncMock(return_value=event_id),
         logger=MagicMock(),
