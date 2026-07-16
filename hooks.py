@@ -19,7 +19,7 @@ async def handle_ping(ctx: MessageReceivedContext) -> None:
     event_id = await ctx.send_message(
         room_id=ctx.envelope.room_id,
         text=_PONG,
-        thread_id=ctx.envelope.resolved_thread_id,
+        thread_id=ctx.envelope.target.resolved_thread_id,
     )
     if event_id is None:
         ctx.logger.warning("ping-hook failed to send pong", room_id=ctx.envelope.room_id)
