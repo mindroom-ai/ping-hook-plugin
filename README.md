@@ -28,6 +28,30 @@ A minimal [MindRoom](https://github.com/mindroom-ai/mindroom) hook plugin that r
 |------|-------|---------|
 | `ping-hook` | `message:received` | Respond to `!ping-hook` with a direct message reply |
 
+## Install
+
+Vendor this plugin with the MindRoom CLI:
+
+```bash
+mindroom plugins install ping-hook-plugin
+```
+
+Then reference it from `config.yaml`:
+
+```yaml
+plugins:
+  - path: plugins/ping-hook-plugin
+```
+
+Update to the latest commit later with:
+
+```bash
+mindroom plugins update ping-hook-plugin
+```
+
+The command pins the exact installed commit in `.mindroom-plugin.lock.json` and strictly validates the plugin before activating it.
+For a manual checkout instead, see Setup below.
+
 ## Setup
 
 1. Copy this plugin to `~/.mindroom/plugins/ping-hook`.
