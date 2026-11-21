@@ -13,7 +13,7 @@ A minimal [MindRoom](https://github.com/mindroom-ai/mindroom) hook plugin that r
 
 ## Features
 
-- Registers a router-scoped `message:received` hook
+- Registers a room-scoped `message:received` hook that runs once per Matrix event
 - Responds to the exact command `!ping-hook`
 - Sends the reply into the current room and thread with `ctx.send_message()`
 - Sets `ctx.suppress = True` so MindRoom does not continue with the normal response flow
@@ -32,6 +32,8 @@ A minimal [MindRoom](https://github.com/mindroom-ai/mindroom) hook plugin that r
 | `ping-hook` | `message:received` | Respond to `!ping-hook` with a direct message reply |
 
 ## Install
+
+Requires MindRoom v2026.11.491 or newer (plugin API 1.33).
 
 Vendor this plugin with the MindRoom CLI:
 
