@@ -11,7 +11,6 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from mindroom.constants import ROUTER_AGENT_NAME
 from mindroom.hooks import MessageEnvelope, SenderKind, TurnIntent, TurnOrigin, TurnTrust
 from mindroom.hooks.decorators import get_hook_metadata
 from mindroom.message_target import MessageTarget
@@ -56,7 +55,7 @@ def _context(body: str, *, event_id: str | None = "$pong") -> SimpleNamespace:
             body=body,
             attachment_ids=(),
             mentioned_agents=(),
-            agent_name=ROUTER_AGENT_NAME,
+            agent_name="code",
             origin=origin,
         ),
         send_message=AsyncMock(return_value=event_id),
@@ -65,14 +64,15 @@ def _context(body: str, *, event_id: str | None = "$pong") -> SimpleNamespace:
     )
 
 
-def test_hook_metadata_is_router_scoped() -> None:
-    """Ping hook should retain router-only command semantics."""
+def test_hook_metadata_is_room_scoped() -> None:
+    """Ping should run once per room event, not once for each bot."""
     metadata = get_hook_metadata(hooks.handle_ping)
 
     assert metadata is not None
     assert metadata.event_name == "message:received"
     assert metadata.hook_name == "ping-hook"
-    assert metadata.agents == (ROUTER_AGENT_NAME,)
+    assert metadata.scope == "room"
+    assert metadata.agents is None
     assert metadata.timeout_ms == 30000
 
 
