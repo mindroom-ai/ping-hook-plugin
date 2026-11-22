@@ -11,9 +11,15 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from mindroom.hooks import MessageEnvelope, SenderKind, TurnIntent, TurnOrigin, TurnTrust
 from mindroom.hooks.decorators import get_hook_metadata
-from mindroom.message_target import MessageTarget
+from mindroom.plugin_api import (
+    MessageEnvelope,
+    MessageTarget,
+    SenderKind,
+    TurnIntent,
+    TurnOrigin,
+    TurnTrust,
+)
 
 
 def _load_hooks_module() -> ModuleType:

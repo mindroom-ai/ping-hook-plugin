@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from mindroom.hooks import MessageReceivedContext, hook
+from mindroom.plugin_api import MessageReceivedContext, hook
 
 _PING = "!ping-hook"
 _PONG = "🏓 Pong from hook!"
