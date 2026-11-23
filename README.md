@@ -1,6 +1,7 @@
 # Ping Hook
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/mindroom-ai/ping-hook-plugin/actions/workflows/plugin-ci.yml/badge.svg)](https://github.com/mindroom-ai/ping-hook-plugin/actions/workflows/plugin-ci.yml)
 [![Docs](https://img.shields.io/badge/docs-plugins-blue)](https://docs.mindroom.chat/plugins/)
 [![Hooks](https://img.shields.io/badge/docs-hooks-blue)](https://docs.mindroom.chat/hooks/)
 
@@ -11,60 +12,59 @@
 
 A minimal [MindRoom](https://github.com/mindroom-ai/mindroom) hook plugin that responds to `!ping-hook` with `🏓 Pong from hook!`.
 
-## Features
+- **Quick plugin health check:** verify that MindRoom loaded your plugins and can reply directly in a room or thread without calling a model.
+- **Minimal starter template:** the entire plugin is 27 lines in [hooks.py](hooks.py) — a clean reference for building custom `!command` hooks that reply in-place and bypass normal agent dispatch.
+- **Single reply, zero config:** runs once per incoming message rather than once per bot, with no settings or agent tools required.
 
-- Registers a room-scoped `message:received` hook that runs once per Matrix event
-- Responds to the exact command `!ping-hook`
-- Sends the reply into the current room and thread with `ctx.send_message()`
-- Sets `ctx.suppress = True` so MindRoom does not continue with the normal response flow
+```text
+You:  !ping-hook
+Bot:  🏓 Pong from hook!
+```
 
-## How It Works
-
-1. A user sends `!ping-hook` in a room or thread.
-2. The `ping-hook` hook checks the incoming message body.
-3. If it matches, the hook posts `🏓 Pong from hook!` back into the same room and thread.
-4. The hook suppresses the rest of the message pipeline so the command behaves like a lightweight built-in action.
-
-## Hooks
-
-| Hook | Event | Purpose |
-|------|-------|---------|
-| `ping-hook` | `message:received` | Respond to `!ping-hook` with a direct message reply |
-
-## Install
-
-Requires MindRoom v2026.11.491 or newer (plugin API 1.33).
-
-Vendor this plugin with the MindRoom CLI:
+## Quick start
 
 ```bash
 mindroom plugins install ping-hook-plugin
 ```
-
-Then reference it from `config.yaml`:
 
 ```yaml
 plugins:
   - path: plugins/ping-hook-plugin
 ```
 
-Update to the latest commit later with:
+No plugin settings or agent tools are required.
 
-```bash
-mindroom plugins update ping-hook-plugin
-```
+Update later with `mindroom plugins update ping-hook-plugin`.
+Needs MindRoom v2026.11.491 or later (plugin API 1.33).
 
-The command pins the exact installed commit in `.mindroom-plugin.lock.json` and strictly validates the plugin before activating it.
-For a manual checkout instead, see Setup below.
+<details>
+<summary><b>How it works</b></summary>
 
-## Setup
+1. Registers `ping-hook` on `message:received` with `scope="room"` (so it runs once per incoming room event instead of once per bot) and a `30000 ms` timeout.
+2. Checks `ctx.envelope.body.strip() == "!ping-hook"`, ignoring surrounding whitespace and leaving every other message untouched.
+3. Replies with `🏓 Pong from hook!` in the same room and resolved thread (`ctx.envelope.target.resolved_thread_id`) using `ctx.send_message()`.
+4. Fails open on send failure: if `ctx.send_message()` returns `None`, the hook logs a warning and returns without suppressing normal dispatch.
+5. After a successful reply, sets `ctx.suppress = True` so MindRoom skips the normal agent response flow.
 
-1. Copy this plugin to `~/.mindroom/plugins/ping-hook`.
+</details>
+
+<details>
+<summary><b>Manual install</b></summary>
+
+`mindroom plugins install` pins the installed commit in `.mindroom-plugin.lock.json` and validates the plugin before activating it. To install from a manual checkout instead:
+
+1. Clone or copy this repository into `~/.mindroom/plugins/ping-hook-plugin`.
 2. Add the plugin to `config.yaml`:
    ```yaml
    plugins:
-     - path: plugins/ping-hook
+     - path: plugins/ping-hook-plugin
    ```
 3. Restart MindRoom.
 
-No agent tools or plugin settings are required.
+</details>
+
+## Hooks
+
+| Hook | Event | Purpose |
+|------|-------|---------|
+| `ping-hook` | `message:received` | Respond to `!ping-hook` with a direct message reply |
