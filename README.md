@@ -50,21 +50,6 @@ Needs MindRoom v2026.11.491 or later (plugin API 1.33).
 
 </details>
 
-<details>
-<summary><b>Manual install</b></summary>
-
-`mindroom plugins install` pins the installed commit in `.mindroom-plugin.lock.json` and validates the plugin before activating it. To install from a manual checkout instead:
-
-1. Clone or copy this repository into `~/.mindroom/plugins/ping-hook-plugin`.
-2. Add the plugin to `config.yaml`:
-   ```yaml
-   plugins:
-     - path: ~/.mindroom/plugins/ping-hook-plugin
-   ```
-3. Restart MindRoom.
-
-</details>
-
 ## Hooks
 
 | Hook | Event | Purpose |
