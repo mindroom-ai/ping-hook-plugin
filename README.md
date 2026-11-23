@@ -27,6 +27,8 @@ Bot:  🏓 Pong from hook!
 mindroom plugins install ping-hook-plugin
 ```
 
+Add to `config.yaml`:
+
 ```yaml
 plugins:
   - path: plugins/ping-hook-plugin
@@ -34,7 +36,7 @@ plugins:
 
 No plugin settings or agent tools are required.
 
-Update later with `mindroom plugins update ping-hook-plugin`.
+Update later with `mindroom plugins update ping-hook-plugin` (updating replaces the installed plugin directory, so keep custom edits in a manual checkout).
 Needs MindRoom v2026.11.491 or later (plugin API 1.33).
 
 <details>
@@ -57,7 +59,7 @@ Needs MindRoom v2026.11.491 or later (plugin API 1.33).
 2. Add the plugin to `config.yaml`:
    ```yaml
    plugins:
-     - path: plugins/ping-hook-plugin
+     - path: ~/.mindroom/plugins/ping-hook-plugin
    ```
 3. Restart MindRoom.
 
